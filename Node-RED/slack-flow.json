@@ -1,0 +1,120 @@
+[
+    {
+        "id": "423c98ce.923348",
+        "type": "tab",
+        "label": "Flow 2"
+    },
+    {
+        "id": "d773e322.a6675",
+        "type": "watson-conversation-v1",
+        "z": "423c98ce.923348",
+        "name": "Conversation",
+        "workspaceid": "d74d2a5f-f9f3-4563-9a2a-5091b32bd56a",
+        "multiuser": false,
+        "context": true,
+        "default-endpoint": true,
+        "service-endpoint": "https://gateway.watsonplatform.net/conversation/api",
+        "x": 350,
+        "y": 60,
+        "wires": [
+            [
+                "18b9b4e2.7b524b"
+            ]
+        ]
+    },
+    {
+        "id": "cd01ae3f.d45d",
+        "type": "chatbot-slack-receive",
+        "z": "423c98ce.923348",
+        "bot": "f554599f.8ac7c8",
+        "x": 120,
+        "y": 60,
+        "wires": [
+            [
+                "16d21516.63269b"
+            ]
+        ]
+    },
+    {
+        "id": "a44be65a.9cd568",
+        "type": "chatbot-slack-send",
+        "z": "423c98ce.923348",
+        "bot": "f554599f.8ac7c8",
+        "x": 730,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f3593a7.91c7ac",
+        "type": "chatbot-message",
+        "z": "423c98ce.923348",
+        "name": "Construct message",
+        "message": [
+            {
+                "message": ""
+            }
+        ],
+        "answer": false,
+        "track": false,
+        "parse_mode": "",
+        "x": 610,
+        "y": 60,
+        "wires": [
+            [
+                "a44be65a.9cd568"
+            ]
+        ]
+    },
+    {
+        "id": "16d21516.63269b",
+        "type": "change",
+        "z": "423c98ce.923348",
+        "name": "Update payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.content",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 220,
+        "y": 120,
+        "wires": [
+            [
+                "d773e322.a6675"
+            ]
+        ]
+    },
+    {
+        "id": "18b9b4e2.7b524b",
+        "type": "function",
+        "z": "423c98ce.923348",
+        "name": "Postprocessing",
+        "func": "var output = msg.payload.output.text\nfor (var t in output) {\n    msg.payload = output[t]\n    node.send(msg);\n}\nreturn ;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 120,
+        "wires": [
+            [
+                "6f3593a7.91c7ac"
+            ]
+        ]
+    },
+    {
+        "id": "f554599f.8ac7c8",
+        "type": "chatbot-slack-node",
+        "z": 0,
+        "botname": "testbot",
+        "usernames": ""
+    }
+]
