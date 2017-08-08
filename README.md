@@ -1,4 +1,3 @@
-# Materials for WDC Basics
 Web Chatbot Application utilizing Conversation API, connect to 3rd party chat service.
 
 ## Requirements
